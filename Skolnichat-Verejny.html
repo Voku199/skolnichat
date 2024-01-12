@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktivní Třídní Stránka</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #f2f2f2;
+            padding: 10px;
+        }
+
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .profile, div {
+            width: 80%; /* Přizpůsobení šířky pro mobilní zařízení */
+        }
+
+        textarea {
+            width: 100%;
+            box-sizing: border-box; /* Zabraňuje přidání paddingu a borderu k šířce */
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .message {
+            border: 1px solid #ccc;
+            margin: 5px;
+            padding: 8px;
+            background-color: #f9f9f9;
+        }
+
+        /* Přidáno pro větší velikost tlačítek na mobilních zařízeních */
+        button {
+            font-size: 16px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Interaktivní Třídní Stránka</h1>
+    </header>
+
+    <nav>
+        <a href="#">Domů</a>
+        <a href="#">O nás</a>
+        <a href="#">Kontakt</a>
+    </nav>
+
+    <section>
+        <div class="profile">
+            <h2>Profil Uživatele</h2>
+            <label for="username">Uživatelské jméno:</label>
+            <input type="text" id="username" name="username" required>
+            <button onclick="updateProfile()">Aktualizovat Profil</button>
+        </div>
+
+        <div>
+            <h2>Pište něco:</h2>
+            <textarea id="message" rows="4" cols="50"></textarea>
+            <br>
+            <button onclick="postMessage()">Odeslat Zprávu</button>
+        </div>
+
+        <div>
+            <h2>Zprávy:</h2>
+            <ul id="messageList"></ul>
+        </div>
+    </section>
+
+    <script>
+        var messageList = document.getElementById("messageList");
+
+        function addMessageToChat(message) {
+            var listItem = document.createElement("li");
+            listItem.className = "message";
+            listItem.textContent = message.username + ": " + message.text;
+            messageList.appendChild(listItem);
+        }
+
+        function updateProfile() {
+            var usernameInput = document.getElementById("username");
+            var username = usernameInput.value;
+
+            if (username.trim() !== "") {
+                alert("Profil byl aktualizován pro uživatele: " + username);
+                // Přidáme aktualizaci profilu přímo do chatu
+                addMessageToChat({ username: "Systém", text: "Uživatel aktualizoval svůj profil na: " + username });
+            } else {
+                alert("Zadejte uživatelské jméno.");
+            }
+        }
+
+        function postMessage() {
+            var messageInput = document.getElementById("message");
+            var message = messageInput.value;
+
+            if (message.trim() !== "") {
+                // Přidáme zprávu s aktuálním uživatelským jménem
+                addMessageToChat({ username: document.getElementById("username").value, text: message });
+                alert("Zpráva byla odeslána: " + message);
+                messageInput.value = "";
+            } else {
+                alert("Zadejte zprávu.");
+            }
+        }
+    </script>
+
+</body>
+</html>
